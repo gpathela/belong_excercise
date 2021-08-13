@@ -126,15 +126,13 @@ public class ApiTests {
 		ActivateNumber input = new ActivateNumber();
 		input.setName("tom");
 		input.setNumber("0412345678");
-		List<PhoneNumber> numbers = new ArrayList<>();
-		numbers.add(new PhoneNumber("0412345678", true));
-		Customer customer = new Customer("tom", numbers);
 		Mockito.when(db.activateNumber("tom", "0412345678")).thenReturn("Number activated");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/activatenumber")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
 				.content(this.mapper.writeValueAsString(input));
 
-		mockMvc.perform(mockRequest).andExpect(status().isCreated()).andExpect(jsonPath("$", notNullValue()));
+		mockMvc.perform(mockRequest).andExpect(status().isCreated())
+		.andExpect(jsonPath("$", notNullValue()));
 	}
 	
 	@Test
@@ -187,11 +185,10 @@ public class ApiTests {
 	}
 	
 	@Test
-	public void activate_bothNull() throws Exception {
-		ActivateNumber input = new ActivateNumber();
+	public void activate_inputNull() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/activatenumber")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-				.content(this.mapper.writeValueAsString(input));
+				.content(this.mapper.writeValueAsString(null));
 
 		mockMvc.perform(mockRequest).andExpect(status().isBadRequest());
 	}

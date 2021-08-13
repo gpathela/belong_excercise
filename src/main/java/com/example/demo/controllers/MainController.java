@@ -66,9 +66,10 @@ public class MainController {
 		} else {
 			String status = db.activateNumber(input.getName(), input.getNumber());
 			if (status.equals("Number activated")) {
-				return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+				return ResponseEntity.status(HttpStatus.CREATED).body(new Customer(input.getName(), db.getCustomer(input.getName())));
 			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(db.getCustomer(input.getName()));
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body(status);
 			}
 		}
 
